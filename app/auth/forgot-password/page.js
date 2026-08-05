@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import AuthLayout from '@/components/AuthLayout/AuthLayout';
 import Input from '@/components/Input/Input';
@@ -52,10 +53,27 @@ export default function ForgotPasswordPage() {
       subtitle="We'll send a secure reset link to your email"
     >
       <div className={styles.wrapper}>
-        {error && <div className={styles.error}>{error}</div>}
+        <AnimatePresence mode="wait">
+          {error && (
+            <motion.div
+              key="error"
+              className={styles.error}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {!sent ? (
-          <form onSubmit={handleSubmit} className={styles.form}>
+          <motion.form
+            onSubmit={handleSubmit}
+            className={styles.form}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
             <Input
               label="Email"
               type="email"
@@ -69,20 +87,34 @@ export default function ForgotPasswordPage() {
             <Button type="submit" fullWidth loading={loading}>
               Send reset link
             </Button>
-          </form>
+          </motion.form>
         ) : (
-          <div className={styles.success}>
-            <div className={styles.icon}>✓</div>
+          <motion.div
+            className={styles.success}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
+          >
+            <div className={styles.iconWrap}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 6L9 17l-5-5" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
             <h3>Check your email</h3>
             <p>
-              If an account exists for <span>{email}</span>, a reset link has
-              been sent.
+              If an account exists for <strong>{email}</strong>, a reset link has
+              been sent. Check your inbox and spam folder.
             </p>
-          </div>
+          </motion.div>
         )}
 
         <div className={styles.footer}>
-          <Link href="/auth/login">← Back to sign in</Link>
+          <Link href="/auth/login" className={styles.backLink}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Back to sign in
+          </Link>
         </div>
       </div>
     </AuthLayout>

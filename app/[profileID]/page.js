@@ -5,7 +5,7 @@ import styles from "./page.module.css"
 import { useParams } from 'next/navigation'
 import Link from 'next/link';
 import { motion } from "framer-motion";
-
+import { Ellipsis } from "lucide-react";
 
 const page = () => {
     const { profileID } = useParams()
@@ -43,6 +43,8 @@ const page = () => {
                             <button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-message-circle w-4 h-4 mr-2" aria-hidden="true"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg> Message</button>
 
                             <button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-share2 lucide-share-2 w-4 h-4 mr-2" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></svg> Share</button>
+
+                            <div><button className={styles.menuButton}><Ellipsis size={20} /></button></div>
                         </div>
                     </div>
                 </motion.div>
@@ -61,7 +63,7 @@ const page = () => {
                         ease: "easeOut",
                     }}
                 >
-                    <span>Bio</span>
+                    <span><img src="./images/user.png" alt="" />About</span>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum, repellat autem vero reprehenderit ab. Quod, cupiditate maxime. Nihil culpa eos et similique quae omnis voluptatibus necessitatibus inventore ducimus itaque.</p>
                 </motion.div>
 

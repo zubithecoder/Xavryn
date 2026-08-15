@@ -6,12 +6,19 @@
 
 .generalError {
   padding: 0.75rem 1rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: var(--radius-md);
-  color: #fca5a5;
+  color: #f87171;
   font-size: 0.875rem;
   text-align: center;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
 }
 
 .googleButton {
@@ -20,20 +27,22 @@
   justify-content: center;
   gap: 0.75rem;
   width: 100%;
+  min-height: 48px;
   padding: 0.75rem 1rem;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   font-weight: 500;
   color: var(--text);
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
 }
 
 .googleButton:hover:not(:disabled) {
   background: var(--surface);
   border-color: rgba(168, 85, 247, 0.35);
+  transform: translateY(-1px);
 }
 
 .googleButton:disabled {
@@ -44,6 +53,7 @@
 .googleIcon {
   width: 20px;
   height: 20px;
+  flex-shrink: 0;
 }
 
 .googleLoader {
@@ -77,7 +87,8 @@
   font-size: 0.75rem;
   color: var(--muted);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  font-weight: 500;
 }
 
 .form {
@@ -96,9 +107,11 @@
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
+  transition: opacity 0.2s;
 }
 
 .link:hover {
+  opacity: 0.85;
   text-decoration: underline;
 }
 
@@ -110,8 +123,12 @@
 }
 
 .terms {
-  font-size: 0.8rem;
+  font-size: 0.8125rem;
   color: var(--muted);
-  line-height: 1.5;
+  line-height: 1.55;
   text-align: center;
+}
+
+.terms .link {
+  font-size: inherit;
 }

@@ -5,11 +5,17 @@ import styles from './ChatMessage.module.css';
 function StatusTicks({ status }) {
   if (!status) return null;
 
-  if (status === 'read') return <span className={styles.ticks}>✓✓</span>;
-  if (status === 'delivered') return <span className={styles.ticks}>✓✓</span>;
-  if (status === 'sent') return <span className={styles.ticks}>✓</span>;
+  const isRead = status === 'read';
+  const isDelivered = status === 'delivered';
 
-  return null;
+  return (
+    <span
+      className={`${styles.ticks} ${isRead ? styles.ticksRead : ''}`}
+      aria-label={isRead ? 'Read' : isDelivered ? 'Delivered' : 'Sent'}
+    >
+      {isDelivered || isRead ? '✓✓' : '✓'}
+    </span>
+  );
 }
 
 export default function ChatMessage({

@@ -6,11 +6,12 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import ChatGuard from '@/components/ChatGuard/ChatGuard';
 import ChatList from '@/components/ChatList/ChatList';
+import ChatMemberPanel from '@/components/ChatMemberPanel/ChatMemberPanel';
 import ChatSearch from '@/components/ChatSearch/ChatSearch';
 import Logo from '@/components/Logo/Logo';
 import NotesRow from '@/components/NotesRow/NotesRow';
 import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
-import { groups, notes } from '@/lib/chat';
+import { groups, notes, getChatById } from '@/lib/chat';
 import {
   getInboxSnapshot,
   getServerInboxSnapshot,
@@ -57,8 +58,11 @@ export default function ChatLayout({ children }) {
     [inboxChats, search]
   );
 
-  const isConversation =
-    pathname?.startsWith('/chat/') && pathname !== '/chat';
+  const conversationId = pathname?.startsWith('/chat/')
+    ? pathname.split('/chat/')[1]
+    : null;
+  const isConversation = Boolean(conversationId);
+  const activeChat = conversationId ? getChatById(conversationId) : null;
 
   const handleSignOut = () => {
     logout();
@@ -106,20 +110,25 @@ export default function ChatLayout({ children }) {
 
           <div className={styles.sidebarFooter}>
             <div className={styles.userRow}>
-              <div className={styles.userAvatar}>
-                {(user?.name || 'U').charAt(0)}
+              <div className={styles.userAvatarWrap}>
+                <div className={styles.userAvatar}>
+                  {(user?.name || 'U').charAt(0)}
+                </div>
+                <span className={styles.userOnlineDot} aria-label="You are online" />
               </div>
               <div className={styles.userMeta}>
                 <span className={styles.userName}>
                   {user?.name || 'Guest'}
                 </span>
-                <span className={styles.userEmail}>
-                  {user?.email || ''}
-                </span>
+                <span className={styles.userStatus}>Online</span>
               </div>
             </div>
             <div className={styles.footerActions}>
               <Link href="/settings" className={styles.footerLink}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.5"/>
+                  <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                </svg>
                 Settings
               </Link>
               <button
@@ -138,16 +147,17 @@ export default function ChatLayout({ children }) {
         >
           {isConversation && (
             <Link href="/chat" className={styles.backBtn}>
-              ← Inbox
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Inbox
             </Link>
           )}
           {children}
         </main>
 
         <aside className={styles.rightPanel}>
-          <p className={styles.rightPanelText}>
-            Member list & group info — coming soon
-          </p>
+          <ChatMemberPanel chat={activeChat} />
         </aside>
       </div>
     </ChatGuard>

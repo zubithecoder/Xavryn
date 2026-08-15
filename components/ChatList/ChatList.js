@@ -13,7 +13,13 @@ export default function ChatList({ chats = [] }) {
 
   if (chats.length === 0) {
     return (
-      <p className={styles.empty}>No conversations match your search.</p>
+      <div className={styles.empty}>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" strokeWidth="1.5"/>
+          <path d="M21 21l-4.35-4.35" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+        </svg>
+        <p>No conversations match your search.</p>
+      </div>
     );
   }
 
@@ -29,10 +35,13 @@ export default function ChatList({ chats = [] }) {
             href={`/chat/${chat.id}`}
             className={`${styles.chatItem} ${isActive ? styles.active : ''}`}
           >
-            <div
-              className={`${styles.avatar} ${chat.online ? styles.avatarOnline : ''}`}
-            >
-              {chat.name.charAt(0)}
+            <div className={styles.avatarWrap}>
+              <div className={styles.avatar}>
+                {chat.name.charAt(0)}
+              </div>
+              {chat.online && (
+                <span className={styles.onlineDot} aria-label="Online" />
+              )}
             </div>
 
             <div className={styles.chatInfo}>

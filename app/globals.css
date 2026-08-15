@@ -83,3 +83,17 @@ textarea {
   background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d8b4fe, #9333ea);
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.35);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(168, 85, 247, 0.55);
+  outline-offset: 2px;
+}
